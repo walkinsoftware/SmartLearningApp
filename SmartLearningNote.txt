@@ -1,0 +1,55 @@
+"alternativeMobileNumber": "888888888",
+  "creaedBy": 0,
+  "firstName": "Ramesh",
+  "gender": "male",
+  "imeiNubmer": "1111111111",
+  "lastName": "patil",
+  "mailId": "patil.pc047!gmail.com",
+  "mobileNumber": "8888888888",
+  "studentId": 10002,
+  "updatedBy": 0,
+  "userName": "rameshpatil"
+  
+  College
+	  Collename
+	  CollegeCode
+	  Description
+	  address1
+	  address2
+	  City
+	  State
+	  Pincode
+	  ContactNumber
+	  ContactName
+  
+  Group - 
+			Group name Unique 
+			Group description
+			Status , accessLevel
+			Draft			Private
+			Aprove				Public
+		
+	Course
+		Name  Unique
+		Description
+		status
+		accessLevel
+		
+	Module 
+		name
+		Description
+		status
+		accessLevel
+		
+		
+	Topics
+		Name Genric Aptitude 
+		Description
+		type - Doc, Multiple type questions(Aptitude), quetion answer, research
+		status 
+		accessLevel - public
+		
+		
+	
+	
+	
