@@ -1,3 +1,4 @@
+
 package com.ws.spring.config;
 
 import java.time.LocalDate;
@@ -25,14 +26,6 @@ import springfox.documentation.swagger.web.UiConfigurationBuilder;
 @Profile({ "local", "dev", "stage", "prod" })
 public class SwaggerConfig {
 	
-	private static final String[] AUTH_LIST = {
-	        // -- swagger ui
-	        "**/swagger-resources/**",
-	        "/swagger-ui.html",
-	        "student/v1/api-docs",
-	        "/webjars/**"
-	};
-
 	@Bean
 	public Docket eDesignApi() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiEndPointsInfo()).enable(Boolean.TRUE).select()
