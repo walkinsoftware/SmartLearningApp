@@ -23,7 +23,7 @@ public class StudentServiceImpl {
 	}
 
 	public Student queryStudentById(long id) {
-		return studentRepository.findStudentById(id);
+		return studentRepository.findStudentByStudentId(id);
 	}
 	public Student queryStudentByMobileNumber(String mobileNumber) {
 		return studentRepository.findStudentByMobileNumber(mobileNumber);

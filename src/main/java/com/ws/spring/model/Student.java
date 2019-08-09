@@ -1,5 +1,6 @@
 package com.ws.spring.model;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,7 +21,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
 
-
 @Entity
 @Table(name = "t_ws_student")
 @DynamicUpdate
@@ -27,11 +29,6 @@ public class Student {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
-	
-
-	@Column(unique = true)
 	private long studentId;
 
 	private String firstName;
@@ -67,7 +64,21 @@ public class Student {
     @JoinColumn(name = "collegeId")
 	private College college;
 	
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "groupId")
-	private Group group;
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    @JoinTable(name = "student_group", joinColumns = @JoinColumn(name = "studentId", referencedColumnName = "studentId"), inverseJoinColumns = @JoinColumn(name = "groupId", referencedColumnName = "groupId"))
+    private Set<Group> groups;
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    @JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "studentId", referencedColumnName = "studentId"), inverseJoinColumns = @JoinColumn(name = "courseId", referencedColumnName = "courseId"))
+    private Set<Course> courses;
+
 }

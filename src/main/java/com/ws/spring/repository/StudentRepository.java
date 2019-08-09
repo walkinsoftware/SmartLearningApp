@@ -8,7 +8,7 @@ import com.ws.spring.model.Student;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 	
-	Student findStudentById(long id);
+	Student findStudentByStudentId(long studentId);
 	
 	Student findStudentByMobileNumber(String mobileNumber);
 	

@@ -29,13 +29,13 @@ public class StudentController {
 	@PostMapping("/v1/createStudent")
 	ResponseEntity<String> createStudent(@RequestBody Student student) {
 		Student studentCreated = studentService.createStudent(student);
-		return ResponseEntity.created(URI.create("/student/v1/queryStudentById/" + studentCreated.getId())).body("");
+		return ResponseEntity.created(URI.create("/student/v1/queryStudentById/" + studentCreated.getStudentId())).body("");
 	}
 
 	@PostMapping("/v1/updateStudent")
 	ResponseEntity<String> updateStudent(@RequestBody Student student) {
 		Student studentCreated = studentService.updateStudent(student);
-		return ResponseEntity.created(URI.create("/student/v1/queryStudentById/" + studentCreated.getId())).body("");
+		return ResponseEntity.created(URI.create("/student/v1/queryStudentById/" + studentCreated.getStudentId())).body("");
 	}
 
 	@GetMapping("/v1/queryStudentById/{id}")
