@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.Data;
 
@@ -27,10 +28,10 @@ import lombok.Data;
 public class Group {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long groupId;
 
-	@Column(unique = true)
+	//@Column(unique = true)
 	private String groupName;
 
 	private String description;
@@ -39,12 +40,9 @@ public class Group {
 
 	private long accessLevel;
 
-	private String draft;
-
-	private String aprove;
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.EAGER)
-	@JoinColumn(name = "collegeId")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.LAZY)
+    @JoinColumn(name = "college_id")
 	private College college;
 
 	@OneToMany(mappedBy = "group", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.LAZY)
