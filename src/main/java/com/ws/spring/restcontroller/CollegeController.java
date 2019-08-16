@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,39 +43,43 @@ public class CollegeController {
 
 	@PostMapping("/v1/createCollege")
 	ResponseEntity<String> createCollege(@RequestBody CollegeDto collegeDto) {
+		try {
 		College collegeCreated = collegeService.createCollege(collegeDto);
 		return ResponseEntity.created(URI.create("/college/v1/queryCollegeById/" + collegeCreated.getCollegeId()))
 				.body("");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCause().getCause().getMessage());
+		}
 	}
 
 	@PostMapping("/v1/createCollegeAndStudents")
 	public ResponseEntity<String> createCollegeAndStudents(@ModelAttribute CollegeDto collegeDto) {
 		// Check If College contains the uploaded file with students
 		MultipartFile studentsFile = collegeDto.getStudentsFile();
-		if (null != studentsFile && !studentsFile.isEmpty()) {
-			Reader reader;
-			try {
-				Set<Student> students = new HashSet<Student>();
+		Reader reader = null;
+		try {
+			Set<Student> students = new HashSet<Student>();
+			if (null != studentsFile && !studentsFile.isEmpty()) {
 				reader = new InputStreamReader(studentsFile.getInputStream());
-				// CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
-				CsvToBean<StudentCsv> csvToBean = new CsvToBeanBuilder<StudentCsv>(reader).withSkipLines(1)
-						.withType(StudentCsv.class).withIgnoreLeadingWhiteSpace(true).build();
-				Iterator<StudentCsv> csvUserIterator = csvToBean.iterator();
+			} 
+			// CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+			CsvToBean<StudentCsv> csvToBean = new CsvToBeanBuilder<StudentCsv>(reader).withSkipLines(1)
+					.withType(StudentCsv.class).withIgnoreLeadingWhiteSpace(true).build();
+			Iterator<StudentCsv> csvUserIterator = csvToBean.iterator();
 
-				CollectionUtils.addAll(students, csvUserIterator);
-				collegeDto.setStudents(students);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			CollectionUtils.addAll(students, csvUserIterator);
+			collegeDto.setStudents(students);
+			College collegeCreated = collegeService.createCollege(collegeDto);
+			return ResponseEntity.created(URI.create("/college/v1/queryCollegeById/" + collegeCreated.getCollegeId()))
+					.body("");
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		College collegeCreated = collegeService.createCollege(collegeDto);
-		return ResponseEntity.created(URI.create("/college/v1/queryCollegeById/" + collegeCreated.getCollegeId()))
-				.body("");
+
 	}
-	
+
 	@PostMapping("/v1/uploadFile")
-	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file)
-	{
+	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
 		return ResponseEntity.ok(" " + file.getSize());
 	}
 
@@ -86,7 +91,7 @@ public class CollegeController {
 	}
 
 	@GetMapping("/v1/queryCollegeById/{id}")
-	ResponseEntity<College> queryCollegeByCollegeId(@PathVariable long collegeId) {
+	ResponseEntity<College> queryCollegeByCollegeId(@PathVariable(value = "id") Long collegeId) {
 		College college = collegeService.queryCollegeByCollegeId(collegeId);
 		return ResponseEntity.ok().body(college);
 	}

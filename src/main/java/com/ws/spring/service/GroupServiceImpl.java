@@ -38,5 +38,10 @@ public class GroupServiceImpl {
 		return groupRepository.findAll();
 	}
 
+	public List<Group> queryUnassociatedGroups() {
+
+		return groupRepository.queryUnassociatedGroups();
+	}
+
 
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.ws.spring.model.Group;
 import com.ws.spring.model.Student;
@@ -44,6 +43,5 @@ public class CollegeDto implements Serializable{
 	private Set<Student> students;
 
 	private MultipartFile studentsFile;
-	private CommonsMultipartFile stuFile;
 
 }

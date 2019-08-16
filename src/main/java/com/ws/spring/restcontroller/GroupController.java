@@ -17,7 +17,9 @@ import com.ws.spring.model.Group;
 import com.ws.spring.service.GroupServiceImpl;
 
 import io.swagger.annotations.Api;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 @RequestMapping("/group")
 @Api(value = "Group Management System", tags = "Operations pertaining to Group in Group Management System")
@@ -29,6 +31,9 @@ public class GroupController {
 	@PostMapping("/v1/createGroup")
 	ResponseEntity<String> createGroup(@RequestBody Group group) {
 		Group groupCreated = groupService.createGroup(group);
+		
+		log.debug("created Group groupname : {} groupId : {}" , group.getGroupName(), groupCreated.getGroupId());
+		
 		return ResponseEntity.created(URI.create("/group/v1/queryGroupById/" + groupCreated.getGroupId())).body("");
 	}
 
@@ -56,6 +61,13 @@ public class GroupController {
 		Group group = groupService.queryGroupByAccessLevel(accessLevel);
 		return ResponseEntity.ok().body(group);
 	}
+	
+	@GetMapping("/v1/queryUnassociatedGroups")
+	ResponseEntity<List<Group>> queryUnassociatedGroups() {
+		List<Group> groups = groupService.queryUnassociatedGroups();
+		return ResponseEntity.ok().body(groups);
+	}
+	
 
 	@GetMapping("/v1/queryAllSGroups")
 	ResponseEntity<List<Group>> queryAllGroups() {

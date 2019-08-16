@@ -1,24 +1,14 @@
 package com.ws.spring.service;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import com.ws.spring.dto.CollegeDto;
-import com.ws.spring.dto.StudentCsv;
 import com.ws.spring.model.College;
 import com.ws.spring.model.Group;
 import com.ws.spring.model.Student;
